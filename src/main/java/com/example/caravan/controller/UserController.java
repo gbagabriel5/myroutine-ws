@@ -40,7 +40,7 @@ public class UserController {
     }
 
     @DeleteMapping(value = "/{id}")
-    @ApiOperation(value = "Delete Client by ID")
+    @ApiOperation(value = "Delete User by ID")
     public void delete(@PathVariable Integer id) {
         userService.delete(id);
     }

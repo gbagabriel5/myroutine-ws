@@ -2,6 +2,7 @@ package com.example.caravan.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -18,7 +19,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableWebMvc
 public class SwaggerConfig implements WebMvcConfigurer {
 
-    private static  final String TITLE="RESTAURANT API";
+    private static  final String TITLE="CARAVAN API";
 
     @Bean
     public Docket api() {
@@ -37,6 +38,11 @@ public class SwaggerConfig implements WebMvcConfigurer {
 
         registry.addResourceHandler("/webjars/**")
                 .addResourceLocations("classpath:/META-INF/resources/webjars/");
+    }
+
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**").allowedMethods("POST", "GET", "PUT", "OPTIONS", "DELETE", "PATCH");
     }
 
     private ApiInfo apiInfo() {
