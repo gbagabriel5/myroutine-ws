@@ -47,9 +47,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserDTO> getByName(String name) {
         List<UserDTO> userDTOS = new ArrayList<>();
-        List<User> listByName = repository.findByName(name);
-        listByName.forEach(users -> userDTOS.add(userMapper.convertToDTO(users)));
-        if (name == null) {
+        if(name != null) {
+            List<User> listByName = repository.findByNameIgnoreCaseContaining(name);
+            listByName.forEach(users -> userDTOS.add(userMapper.convertToDTO(users)));
+        }else {
             List<User> listAll = repository.findAll();
             listAll.forEach(users -> userDTOS.add(userMapper.convertToDTO(users)));
         }
