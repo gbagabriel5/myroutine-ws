@@ -1,5 +1,6 @@
 package com.example.caravan.controller;
 
+import com.example.caravan.dto.TaskCustomDTO;
 import com.example.caravan.dto.TaskDTO;
 import com.example.caravan.service.TaskService;
 import io.swagger.annotations.Api;
@@ -24,7 +25,7 @@ public class TaskController {
 
     @PostMapping
     @ApiOperation(value = "Create Task")
-    public TaskDTO create (@ApiParam(value = "Task") @RequestBody @Valid TaskDTO dto) {
+    public TaskDTO create (@ApiParam(value = "Task") @RequestBody @Valid TaskCustomDTO dto) {
         return taskService.create(dto);
     }
 

@@ -1,7 +1,9 @@
 package com.example.caravan.mapper;
 
 import com.example.caravan.domain.Task;
+import com.example.caravan.dto.TaskCustomDTO;
 import com.example.caravan.dto.TaskDTO;
+import com.example.caravan.dto.UserDTO;
 
 public class TaskMapper {
     public TaskDTO convertToDTO(Task entity) {
@@ -21,8 +23,17 @@ public class TaskMapper {
         entity.setTitle(dto.getTitle());
         entity.setDescription(dto.getDescription());
         entity.setData(dto.getData());
-        if(dto.getUserDTO() != null)
-            entity.setUser(new UserMapper().convertToEntity(dto.getUserDTO()));
+        entity.setUser(new UserMapper().convertToEntity(dto.getUserDTO()));
         return entity;
+    }
+
+    public TaskDTO convertCustomToDtoToCreate(TaskCustomDTO customDTO, UserDTO userDto) {
+        TaskDTO dto = new TaskDTO();
+        dto.setId(customDTO.getId());
+        dto.setTitle(customDTO.getTitle());
+        dto.setDescription(customDTO.getDescription());
+        dto.setData(customDTO.getData());
+        dto.setUserDTO(userDto);
+        return dto;
     }
 }
