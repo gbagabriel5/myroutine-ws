@@ -22,8 +22,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO create(UserDTO dto) {
         User user = userMapper.convertToEntity(dto);
-        user = repository.save(user);
-        dto = userMapper.convertToDTO(user);
+        User userSaved = repository.save(user);
+        dto = userMapper.convertToDTO(userSaved);
         return dto;
     }
 
@@ -32,7 +32,7 @@ public class UserServiceImpl implements UserService {
         User user = userMapper.convertToEntity(dto);
         Optional<User> userReturn = repository.findById(user.getId());
         if (userReturn.isPresent())
-            user = repository.save(userMapper.convertToUpdate(user, userReturn));
+            user = repository.save(userMapper.convertToUpdate(user, userReturn.get()));
         else
             throw new NotFoundException("Usuario nao encontrado!");
         dto = userMapper.convertToDTO(user);
@@ -40,16 +40,22 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void delete(Integer id) {
-        repository.deleteById(id);
+    public boolean delete(Integer id) {
+        try {
+            repository.deleteById(id);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     @Override
     public List<UserDTO> getByName(String name) {
         List<UserDTO> userDTOS = new ArrayList<>();
-        List<User> listByName = repository.findByNameIgnoreCaseContaining(name);
-        listByName.forEach(users -> userDTOS.add(userMapper.convertToDTO(users)));
-        if (name == null) {
+        if (name != null) {
+            List<User> listByName = repository.findByNameIgnoreCaseContaining(name);
+            listByName.forEach(users -> userDTOS.add(userMapper.convertToDTO(users)));
+        } else {
             List<User> listAll = repository.findAll();
             listAll.forEach(users -> userDTOS.add(userMapper.convertToDTO(users)));
         }
@@ -57,10 +63,23 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserDTO getById(Integer id) {
+        Optional<User> user = repository.findById(id);
+        UserDTO dto;
+        if(user.isPresent())
+            dto = userMapper.convertToDTO(user.get());
+        else
+            throw new NotFoundException("Usuario nao encontrado!");
+        return dto;
+    }
+
+    @Override
     public boolean validatesLogin(String email, String password) {
         Optional<User> user = repository.findByEmailAndPassword(email, password);
-        if (user.isPresent())
-            return true;
-        return false;
+        return user.isPresent();
+    }
+
+    public void deleteTask(Integer id) {
+        repository.deleteTaskById(id);
     }
 }

@@ -15,7 +15,6 @@ public class Task {
     private String title;
     private String description;
     private String data;
-
-    @OneToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private User user;
 }

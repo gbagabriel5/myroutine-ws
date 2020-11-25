@@ -2,7 +2,6 @@ package com.example.caravan.mapper;
 
 import com.example.caravan.domain.User;
 import com.example.caravan.dto.UserDTO;
-import java.util.Optional;
 
 public class UserMapper {
     public UserDTO convertToDTO(User entity) {
@@ -16,6 +15,7 @@ public class UserMapper {
         dto.setCity(entity.getCity());
         dto.setState(entity.getState());
         dto.setZipCode(entity.getZipCode());
+        entity.getTasks().forEach(tasks -> dto.getTasks().add(new TaskMapper().convertToDTO(tasks)));
         return dto;
     }
 
@@ -30,27 +30,29 @@ public class UserMapper {
         entity.setCity(dto.getCity());
         entity.setState(dto.getState());
         entity.setZipCode(dto.getZipCode());
+        dto.getTasks().forEach(tasksDTOs -> entity.getTasks().add(new TaskMapper().convertToEntity(tasksDTOs)));
         return entity;
     }
 
-    public User convertToUpdate(User user, Optional<User> userReturn) {
-        user.setId(userReturn.get().getId());
+    public User convertToUpdate(User user, User userReturn) {
+        user.setId(userReturn.getId());
         if(user.getName() == null)
-            user.setName(userReturn.get().getName());
+            user.setName(userReturn.getName());
         if(user.getCpf() == null)
-            user.setCpf(userReturn.get().getCpf());
+            user.setCpf(userReturn.getCpf());
         if(user.getEmail() == null)
-            user.setEmail(userReturn.get().getEmail());
+            user.setEmail(userReturn.getEmail());
         if(user.getPassword() == null)
-            user.setPassword(userReturn.get().getPassword());
+            user.setPassword(userReturn.getPassword());
         if(user.getAddress() == null)
-            user.setAddress(userReturn.get().getAddress());
+            user.setAddress(userReturn.getAddress());
         if(user.getCity() == null)
-            user.setCity(userReturn.get().getCity());
+            user.setCity(userReturn.getCity());
         if(user.getState() == null)
-            user.setState(userReturn.get().getState());
+            user.setState(userReturn.getState());
         if(user.getZipCode() == null)
-            user.setZipCode(userReturn.get().getZipCode());
+            user.setZipCode(userReturn.getZipCode());
+        userReturn.getTasks().forEach(tasks -> user.getTasks().add(tasks));
         return user;
     }
 }

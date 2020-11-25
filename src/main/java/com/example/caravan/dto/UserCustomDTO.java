@@ -8,4 +8,5 @@ import lombok.*;
 @NoArgsConstructor
 public class UserCustomDTO {
     private Integer id;
+    private String name;
 }
