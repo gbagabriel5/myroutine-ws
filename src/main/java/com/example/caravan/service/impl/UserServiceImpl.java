@@ -78,8 +78,4 @@ public class UserServiceImpl implements UserService {
         Optional<User> user = repository.findByEmailAndPassword(email, password);
         return user.isPresent();
     }
-
-    public void deleteTask(Integer id) {
-        repository.deleteTaskById(id);
-    }
 }
