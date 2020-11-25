@@ -14,6 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/user")
 public class UserController {
+
     @Autowired
     private final UserService userService;
 
@@ -33,16 +34,22 @@ public class UserController {
         return userService.update(dto);
     }
 
+    @DeleteMapping(value = "/{id}")
+    @ApiOperation(value = "Delete User by ID")
+    public boolean delete(@PathVariable Integer id) {
+        return userService.delete(id);
+    }
+
     @GetMapping("getByName")
     @ApiOperation(value = "List by Name")
     public List<UserDTO> findByName(@RequestParam(value = "name", required = false) String name) {
         return userService.getByName(name);
     }
 
-    @DeleteMapping(value = "/{id}")
-    @ApiOperation(value = "Delete User by ID")
-    public void delete(@PathVariable Integer id) {
-        userService.delete(id);
+    @GetMapping("/{id}")
+    @ApiParam(value = "Get User by Id")
+    public UserDTO getById(@PathVariable(value = "id") Integer id) {
+        return userService.getById(id);
     }
 
     @GetMapping(value = "validatesLogin")

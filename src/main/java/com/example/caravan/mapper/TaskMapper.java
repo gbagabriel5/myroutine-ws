@@ -1,11 +1,13 @@
 package com.example.caravan.mapper;
 
 import com.example.caravan.domain.Task;
-import com.example.caravan.dto.TaskCustomDTO;
+import com.example.caravan.domain.User;
 import com.example.caravan.dto.TaskDTO;
-import com.example.caravan.dto.UserDTO;
+import com.example.caravan.dto.UserCustomDTO;
+import org.modelmapper.ModelMapper;
 
 public class TaskMapper {
+    private ModelMapper modelMapper = new ModelMapper();
     public TaskDTO convertToDTO(Task entity) {
         TaskDTO dto = new TaskDTO();
         dto.setId(entity.getId());
@@ -13,7 +15,7 @@ public class TaskMapper {
         dto.setDescription(entity.getDescription());
         dto.setData(entity.getData());
         if(entity.getUser() != null)
-            dto.setUserDTO(new UserMapper().convertToDTO(entity.getUser()));
+            dto.setUserDTO(modelMapper.map(entity.getUser(), UserCustomDTO.class));
         return dto;
     }
 
@@ -23,17 +25,20 @@ public class TaskMapper {
         entity.setTitle(dto.getTitle());
         entity.setDescription(dto.getDescription());
         entity.setData(dto.getData());
-        entity.setUser(new UserMapper().convertToEntity(dto.getUserDTO()));
+        if(dto.getUserDTO() != null)
+            entity.setUser(modelMapper.map(dto.getUserDTO(), User.class));
         return entity;
     }
 
-    public TaskDTO convertCustomToDtoToCreate(TaskCustomDTO customDTO, UserDTO userDto) {
-        TaskDTO dto = new TaskDTO();
-        dto.setId(customDTO.getId());
-        dto.setTitle(customDTO.getTitle());
-        dto.setDescription(customDTO.getDescription());
-        dto.setData(customDTO.getData());
-        dto.setUserDTO(userDto);
-        return dto;
+    public Task convertToUpdate(Task task, Task taskReturn) {
+        task.setId(taskReturn.getId());
+        if(task.getTitle() == null)
+            task.setTitle(taskReturn.getTitle());
+        if(task.getDescription() == null)
+            task.setDescription(taskReturn.getDescription());
+        if(task.getData() == null)
+            task.setData(taskReturn.getData());
+        task.setUser(taskReturn.getUser());
+        return task;
     }
 }

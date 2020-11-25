@@ -11,4 +11,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     List<User> findByNameIgnoreCaseContaining(String name);
 
     Optional<User> findByEmailAndPassword(String email, String password);
+
+    boolean deleteTaskById(Integer id);
 }

@@ -1,6 +1,8 @@
 package com.example.caravan.dto;
 
 import lombok.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Setter
 @Getter
@@ -16,4 +18,5 @@ public class UserDTO {
     private String city;
     private String state;
     private String zipCode;
+    private List<TaskDTO> tasks = new ArrayList<>();
 }
