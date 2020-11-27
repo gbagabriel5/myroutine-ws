@@ -21,7 +21,10 @@ public class TaskMapper {
 
     public Task convertToEntity(TaskDTO dto) {
         Task entity = new Task();
-        entity.setId(dto.getId());
+        if(dto.getId() == 0)
+            entity.setId(null);
+        else
+            entity.setId(dto.getId());
         entity.setTitle(dto.getTitle());
         entity.setDescription(dto.getDescription());
         entity.setData(dto.getData());

@@ -42,8 +42,14 @@ public class UserController {
 
     @GetMapping("getByName")
     @ApiOperation(value = "List by Name")
-    public List<UserDTO> findByName(@RequestParam(value = "name", required = false) String name) {
+    public List<UserDTO> getByName(@RequestParam(value = "name", required = false) String name) {
         return userService.getByName(name);
+    }
+
+    @GetMapping("getByEmail")
+    @ApiOperation(value = "List by Email")
+    public UserDTO getByEmail(@RequestParam(value = "email", required = false) String email) {
+        return userService.getByEmail(email);
     }
 
     @GetMapping("/{id}")

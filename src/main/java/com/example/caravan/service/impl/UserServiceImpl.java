@@ -63,6 +63,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserDTO getByEmail(String email) {
+        UserDTO userDTO = new UserDTO();
+        if (email != null) {
+            Optional<User> user = repository.findByEmail(email);
+            if(user.isPresent())
+                userDTO = userMapper.convertToDTO(user.get());
+            else
+                throw new NotFoundException("Email nao encontrado!");
+        }
+        return userDTO;
+    }
+
+    @Override
     public UserDTO getById(Integer id) {
         Optional<User> user = repository.findById(id);
         UserDTO dto;

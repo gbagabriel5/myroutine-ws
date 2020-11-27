@@ -12,5 +12,5 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     Optional<User> findByEmailAndPassword(String email, String password);
 
-    boolean deleteTaskById(Integer id);
+    Optional<User> findByEmail(String filter);
 }
